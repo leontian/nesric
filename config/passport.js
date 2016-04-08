@@ -4,10 +4,9 @@
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 
-
-var mysql = require('mysql');
 var dbconfig = require('./db');
-var connection = mysql.createConnection(dbconfig.connection);
+
+var connection = require('./db_connection').connection;
 
 connection.query('USE ' + dbconfig.database);
 // expose this function to our app using module.exports

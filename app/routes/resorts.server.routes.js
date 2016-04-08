@@ -1,5 +1,5 @@
-var resorts = require('../../app/controllers/resorts.server.controller');
+var resorts = require('../controllers/resorts.server.controller');
 
 module.exports = function(app) {
-    app.route('/resorts').get(resorts.list);
+    app.route('/resorts').get(resorts.showResort);
 };
