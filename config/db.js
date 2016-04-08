@@ -5,6 +5,5 @@ module.exports = {
         'user': 'root',
         'password': 'root'
     },
-    'database': 'NESRIC',
-    'users_table': 'users'
+    'database': 'NESRIC'
 };
