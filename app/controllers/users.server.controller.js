@@ -1,4 +1,4 @@
-
+var connection = require('../../config/db_connection').connection;
 // sign in
 // GET
 exports.signIn = function(req, res, next) {
@@ -24,6 +24,28 @@ exports.displayProfile = function(req, res, next) {
     } else {
         res.render('profile', {user:req.user, list:'', message: ''});
     }
+};
+
+exports.updateProfile = function(req, res, next) {
+    if(!req.isAuthenticated()) {
+        res.redirect('/signin');
+    } else {
+        var updatedUserMysql = {
+            username: username,
+            name: name,
+            surname: surname,
+            email: email
+        };
+        var updateQuery = "UPDATE user SET name=?, surname=?, email=? WHERE username=?;";
+
+        connection.query(insertQuery,[updatedUserMysql.name, updatedUserMysql.surname, updatedUserMysql.email, updatedUserMysql.username],function(err, rows) {
+            newUserMysql.id = rows.insertId;
+
+            return done(null, newUserMysql);
+        });
+    }
+
+    res.render('profile', {user:req.user, list:'', message: ''});
 };
 
 

@@ -16,6 +16,15 @@ module.exports = function(app) {
     } )); // session secret
     app.use(flash()); // use connect-flash for flash messages stored in session
 
-
+    app.use(function(req,res,next){
+        var _send = res.send;
+        var sent = false;
+        res.send = function(data){
+            if(sent) return;
+            _send.bind(res)(data);
+            sent = true;
+        };
+        next();
+    });
     return app;
 };

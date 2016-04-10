@@ -26,6 +26,6 @@ exports.render = function(req, res) {
 	}
 	else {}
 		res.render('index', {
-			message: ''
+			message: '',
 	});
 };

@@ -20,16 +20,25 @@
 
 		<!-- LOCAL INFORMATION -->
 		<div class="col-sm-6">
-			<div class="well">
-				<h3>  </h3>
-                <ul>
-                    <% for(var i=0; i<list.length; i++) {%>
-                    <li><%= list[i].id %> <%= list[i].name %> <%= list[i].acre %> <%= list[i].location %></li>
-                    <% } %>
-                </ul>
-
-
-            </div>
+                <form action="/profile" method="post">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" name="username" value=<%= user.username %> readonly>
+                </div>
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" name="firstname" value=<%= user.name %>>
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" name="lastname" value=<%= user.surname %>>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" class="form-control" name="email" value=<%= user.email %>>
+                </div>
+                    <button type="submit" class="btn btn-warning btn-lg">Update</button>
+                    </form>
 		</div>
 
 	</div>

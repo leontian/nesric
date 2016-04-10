@@ -11,7 +11,7 @@ module.exports = function(app, passport) {
         failureRedirect: '/signup', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
     }));
-    app.route('/profile').get(users.displayProfile);
+    app.route('/profile').get(users.displayProfile).post(users.updateProfile);
 
     app.route('/logout').get(function(req, res) {
         req.logout();
