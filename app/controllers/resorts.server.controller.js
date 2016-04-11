@@ -6,9 +6,9 @@ var connection = require('../../config/db_connection').connection;
 exports.showResort = function(req, res, next) {
     if(req.query.id) {
         connection.query("SELECT * FROM SkiResorts s where s.id = ?", [req.query.id], function (err, rows) {
-            if (err)return next(err);
+            if (err) return next(err);
             res.json(rows);
-            next();
+            return next(err);
         });
     } else if(req.query.s) {
         var searchTerms = req.query.s.split(' ');
@@ -22,13 +22,13 @@ exports.showResort = function(req, res, next) {
         connection.query("SELECT * FROM SkiResorts s where s.name rlike ? or s.address rlike ?", [r, r], function (err, rows) {
             if (err)return next(err);
             res.json(rows);
-            next();
+            return next(err);
         });
     } else {
         connection.query("SELECT * FROM SkiResorts s", function (err, rows) {
             if (err)return next(err);
             res.json(rows);
-            next();
+            return next(err);
         });
     }
 };
