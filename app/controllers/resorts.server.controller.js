@@ -47,8 +47,26 @@ exports.registerItem = function(req, res, next) {
     if(!req.isAuthenticated() || req.user.group <= 1) {
         res.render('profile', {user:req.user, list:'', message: "You don't have access to it"});
     } else {
-        res.render('registerItem', {user:req.user, list:'', message: ''});
+        var newItem = {
+            name: req.body.name,
+            address: req.body.address,
+            acre: req.body.acre,
+            date: req.body.date,
+            openStatus: req.body.openStatus,
+            trails: req.body.trails
+        };
+
+        var insertQuery =
+            "INSERT INTO SkiResorts ( name, address, acre, date, openStatus, trails ) values (?,?,?,?,?,?)";
+
+        connection.query(insertQuery,
+            [newItem.name, newItem.address, newItem.acre, newItem.date, newItem.openStatus, newItem.trails],
+            function(err, rows) {
+                newItem.id = rows.insertId;
+                return next(err);
+        });
     }
+    res.redirect('/registeritem');
 };
 
 exports.renderModifyItem = function(req, res, next) {
@@ -62,9 +80,19 @@ exports.renderModifyItem = function(req, res, next) {
 };
 
 exports.modifyItem = function(req, res, next) {
-    if(!req.isAuthenticated() || req.user.group <= 1) {
-        res.render('profile', {user:req.user, list:'', message: "You cannot modify items!"});
+    if(!req.isAuthenticated()) {
+        res.redirect('/signin');
     } else {
-        res.render('registerItem', {user:req.user, list:'', message: ''});
+        console.log(req.body);
+        var updatedItem = req.body;
+        var updateQuery = "UPDATE SkiResorts SET name=?, address=?, acre=?, date=?, openStatus=?, trails=? WHERE id=?;";
+
+        connection.query(updateQuery,
+            [updatedItem.name, updatedItem.address, updatedItem.acre, updatedItem.date, updatedItem.openStatus, updatedItem.trails, updatedItem.id],
+            function(err, rows) {
+            return next(err);
+        });
     }
+
+    res.redirect("/modifyitem");
 };

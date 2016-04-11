@@ -6,7 +6,7 @@
     var EMPTY_SEARCH_URL = "/resorts";
     var SEARCH_URL = "/resorts/?s=TITLE";
     var BY_ID_URL = "/resorts/?id=RID";
-    var EDIT_RESORT_URL = "/edit_resorts/?id=RID";
+    //var EDIT_RESORT_URL = "/edit_resorts/?id=RID";
     var $searchResults;
     var $title, $acre, $address, $trails, $openStatus, $date;
 

@@ -6,9 +6,9 @@
     var EMPTY_SEARCH_URL = "/resorts";
     var SEARCH_URL = "/resorts/?s=TITLE";
     var BY_ID_URL = "/resorts/?id=RID";
-    var EDIT_RESORT_URL = "/edit_resorts/?id=RID";
+    //var EDIT_RESORT_URL = "/edit_resorts/?id=RID";
     var $searchResults;
-    var $title, $acre, $address, $trails, $openStatus, $date;
+    var $title, $acre, $address, $trails, $openStatus, $date, $id, $button, $name;
 
     function init() {
         $skiSearchTxt = $("#skiSearchTxt");
@@ -18,9 +18,12 @@
         $title=$("#title");
         $acre=$("#acre");
         $address=$("#address");
-        $trails=$("#trials");
+        $trails=$("#trails");
         $openStatus=$("#openStatus");
         $date=$("#date");
+        $id=$("#id");
+        $name=$("#name");
+        $button=$("#button");
         $searchBtn.click(searchSkiResort);
     }
 
@@ -50,11 +53,14 @@
             var trails=resort.trails;
 
             $title.html(name+" Details:");
-            $acre.html("Acre: "+acre);
-            $address.html("Address: "+address);
-            $date.html("Date: "+date);
-            $openStatus.html("Open Status: "+openStatus);
-            $trails.html("Trails: "+trails);
+            $id.attr("value", id);
+            $name.attr("value", name);
+            $acre.attr("value", acre);
+            $address.attr("value", address);
+            $date.attr("value", date);
+            $openStatus.attr("value", openStatus);
+            $trails.attr("value", trails);
+            $button.html("Update "+name).click(renderSearchResultsDetails);
         }
         console.log(res);
     }
@@ -73,6 +79,10 @@
                 .attr("id", id)
                 .click(fetchDetail);
             var $td = $("<td>")
+                .append(id)
+                .appendTo($tr);
+
+            $td = $("<td>")
                 .append(name)
                 .appendTo($tr);
 

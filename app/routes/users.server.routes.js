@@ -4,7 +4,8 @@ var users = require('../../app/controllers/users.server.controller');
 module.exports = function(app, passport) {
     app.route('/signin').get(users.signIn).post(passport.authenticate('local-login', {
         successRedirect: '/',
-        failureRedirect: '/signin'
+        failureRedirect: '/signin',
+        failureFlash: true
     }));
     app.route('/signup').get(users.signUp).post(passport.authenticate('local-signup', {
         successRedirect: '/', // redirect to the secure profile section

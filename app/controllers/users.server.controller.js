@@ -22,7 +22,7 @@ exports.displayProfile = function(req, res, next) {
     if(!req.isAuthenticated()) {
         res.redirect('/signin');
     } else {
-        res.render('profile', {user:req.user, list:'', message: ''});
+        res.render('profile', {user:req.user, message: ''});
     }
 };
 
