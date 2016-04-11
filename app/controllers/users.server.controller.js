@@ -30,22 +30,21 @@ exports.updateProfile = function(req, res, next) {
     if(!req.isAuthenticated()) {
         res.redirect('/signin');
     } else {
+        console.log(req.body);
         var updatedUserMysql = {
-            username: username,
-            name: name,
-            surname: surname,
-            email: email
+            username: req.body.username,
+            name: req.body.firstname,
+            surname: req.body.lastname,
+            email: req.body.email
         };
-        var updateQuery = "UPDATE user SET name=?, surname=?, email=? WHERE username=?;";
+        var updateQuery = "UPDATE users SET name=?, surname=?, email=? WHERE username=?;";
 
-        connection.query(insertQuery,[updatedUserMysql.name, updatedUserMysql.surname, updatedUserMysql.email, updatedUserMysql.username],function(err, rows) {
-            newUserMysql.id = rows.insertId;
-
-            return done(null, newUserMysql);
+        connection.query(updateQuery,[updatedUserMysql.name, updatedUserMysql.surname, updatedUserMysql.email, updatedUserMysql.username],function(err, rows) {
+            return next(err);
         });
     }
 
-    res.render('profile', {user:req.user, list:'', message: ''});
+    res.redirect('/profile');
 };
 
 

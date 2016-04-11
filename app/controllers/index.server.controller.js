@@ -22,10 +22,15 @@
 
 exports.render = function(req, res) {
 	if(req.isAuthenticated()) {
-		res.redirect('/profile');
-	}
-	else {}
 		res.render('index', {
-			message: '',
-	});
+            message: '',
+            user: req.user
+        });
+	}
+	else {
+        res.render('index', {
+            message: '',
+            user: ''
+        });
+    }
 };
