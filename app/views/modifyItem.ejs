@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <style>
-        body 		{ padding-top:80px; word-wrap:break-word; }
+        body 		{
+            padding-top: 80px;
+            padding-bottom: 80px;
+            word-wrap:break-word;
+        }
     </style>
 </head>
 <body>
@@ -19,6 +23,9 @@
                 Hello, <span class="fa fa-user"></span><a href="/profile"><%= user.name %></a> <a href="/logout" class="btn btn-default btn-sm">Logout</a>
             </h4>
         </div>
+        <% if (message.length > 0) { %>
+        <div class="alert alert-danger"><%= message %></div>
+        <% } %>
         <% if (user.group > 1) {%>
             <h4>As admin, you can:</h4>
         <a href="/registeritem" class="btn btn-primary">Register Item</a><span> </span><a href="modifyitem" class="btn btn-primary">Modify Item</a>

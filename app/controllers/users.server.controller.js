@@ -37,14 +37,25 @@ exports.updateProfile = function(req, res, next) {
             surname: req.body.lastname,
             email: req.body.email
         };
+        var versionQuery = "INSERT INTO users_history\
+        (username, name, surname, email, password, `group`) \
+        SELECT u.username, u.name, u.surname, u.email, u.password, u.`group`\
+        FROM Users u WHERE u.username=?";
+
         var updateQuery = "UPDATE users SET name=?, surname=?, email=? WHERE username=?;";
 
-        connection.query(updateQuery,[updatedUserMysql.name, updatedUserMysql.surname, updatedUserMysql.email, updatedUserMysql.username],function(err, rows) {
-            return next(err);
+        connection.query(versionQuery,[updatedUserMysql.username],
+            function(err, rows) {
+                return next(err);
+            });
+
+        connection.query(updateQuery,[updatedUserMysql.name, updatedUserMysql.surname, updatedUserMysql.email, updatedUserMysql.username],
+            function(err, rows) {
+                return next(err);
         });
     }
 
-    res.redirect('/profile');
+    res.render('profile', {message: "Contact Updated", user: req.user});
 };
 
 

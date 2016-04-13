@@ -66,7 +66,7 @@ exports.registerItem = function(req, res, next) {
                 return next(err);
         });
     }
-    res.redirect('/registeritem');
+    res.render("registeritem", {message:"Item Registered.", user:req.user});
 };
 
 exports.renderModifyItem = function(req, res, next) {
@@ -85,8 +85,16 @@ exports.modifyItem = function(req, res, next) {
     } else {
         console.log(req.body);
         var updatedItem = req.body;
+        var versionQuery = "INSERT INTO ski_resorts_history (name, date, openStatus, acre, trails, address)\
+        SELECT name, date, openStatus, acre, trails, address FROM SkiResorts WHERE id=?;";
         var updateQuery = "UPDATE SkiResorts SET name=?, address=?, acre=?, date=?, openStatus=?, trails=? WHERE id=?;";
 
+
+        connection.query(versionQuery,
+            [updatedItem.id],
+            function(err, rows) {
+                return next(err);
+            });
         connection.query(updateQuery,
             [updatedItem.name, updatedItem.address, updatedItem.acre, updatedItem.date, updatedItem.openStatus, updatedItem.trails, updatedItem.id],
             function(err, rows) {
@@ -94,5 +102,5 @@ exports.modifyItem = function(req, res, next) {
         });
     }
 
-    res.redirect("/modifyitem");
+    res.render("modifyitem", {message:"Item Modified.", user:req.user});
 };
