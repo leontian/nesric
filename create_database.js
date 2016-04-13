@@ -20,7 +20,7 @@ CREATE TABLE `' + dbconfig.database + '`.`' + 'users' + '` ( \
 )');
 
 connection.query('\
-CREATE TABLE `' + dbconfig.database + '`.`' + 'SkiResorts' + '` ( \
+CREATE TABLE `' + dbconfig.database + '`.`' + 'ski_resorts' + '` ( \
   `id` int(11) NOT NULL AUTO_INCREMENT,\
   `name` varchar(200) NOT NULL,\
   `date` date DEFAULT NULL,\
@@ -32,7 +32,7 @@ CREATE TABLE `' + dbconfig.database + '`.`' + 'SkiResorts' + '` ( \
 )');
 
 connection.query('\
-CREATE TABLE `' + dbconfig.database + '`.`' + 'ski_resort_history' + '` ( \
+CREATE TABLE `' + dbconfig.database + '`.`' + 'ski_resorts_history' + '` ( \
   `id` int(11) NOT NULL AUTO_INCREMENT,\
   `name` varchar(200) NOT NULL,\
   `date` date DEFAULT NULL,\

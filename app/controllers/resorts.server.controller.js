@@ -5,7 +5,7 @@ var connection = require('../../config/db_connection').connection;
 
 exports.showResort = function(req, res, next) {
     if(req.query.id) {
-        connection.query("SELECT * FROM SkiResorts s where s.id = ?", [req.query.id], function (err, rows) {
+        connection.query("SELECT * FROM ski_resorts s where s.id = ?", [req.query.id], function (err, rows) {
             if (err) return next(err);
             res.json(rows);
             return next(err);
@@ -19,13 +19,13 @@ exports.showResort = function(req, res, next) {
             }
         }
         console.log(r);
-        connection.query("SELECT * FROM SkiResorts s where s.name rlike ? or s.address rlike ?", [r, r], function (err, rows) {
+        connection.query("SELECT * FROM ski_resorts s where s.name rlike ? or s.address rlike ?", [r, r], function (err, rows) {
             if (err)return next(err);
             res.json(rows);
             return next(err);
         });
     } else {
-        connection.query("SELECT * FROM SkiResorts s", function (err, rows) {
+        connection.query("SELECT * FROM ski_resorts s", function (err, rows) {
             if (err)return next(err);
             res.json(rows);
             return next(err);
@@ -57,7 +57,7 @@ exports.registerItem = function(req, res, next) {
         };
 
         var insertQuery =
-            "INSERT INTO SkiResorts ( name, address, acre, date, openStatus, trails ) values (?,?,?,?,?,?)";
+            "INSERT INTO ski_resorts ( name, address, acre, date, openStatus, trails ) values (?,?,?,?,?,?)";
 
         connection.query(insertQuery,
             [newItem.name, newItem.address, newItem.acre, newItem.date, newItem.openStatus, newItem.trails],
@@ -86,8 +86,8 @@ exports.modifyItem = function(req, res, next) {
         console.log(req.body);
         var updatedItem = req.body;
         var versionQuery = "INSERT INTO ski_resorts_history (name, date, openStatus, acre, trails, address)\
-        SELECT name, date, openStatus, acre, trails, address FROM SkiResorts WHERE id=?;";
-        var updateQuery = "UPDATE SkiResorts SET name=?, address=?, acre=?, date=?, openStatus=?, trails=? WHERE id=?;";
+        SELECT name, date, openStatus, acre, trails, address FROM ski_resorts WHERE id=?;";
+        var updateQuery = "UPDATE ski_resorts SET name=?, address=?, acre=?, date=?, openStatus=?, trails=? WHERE id=?;";
 
 
         connection.query(versionQuery,
