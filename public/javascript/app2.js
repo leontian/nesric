@@ -7,13 +7,15 @@
     var SEARCH_URL = "/resorts/?s=TITLE";
     var BY_ID_URL = "/resorts/?id=RID";
     //var EDIT_RESORT_URL = "/edit_resorts/?id=RID";
-    var $searchResults;
+    var $searchResults, $head_name, $head_address;
     var $title, $acre, $address, $trails, $openStatus, $date, $id, $button, $name;
 
     function init() {
         $skiSearchTxt = $("#skiSearchTxt");
         $searchBtn = $("#searchBtn");
         $searchResults = $("#searchResults").find("tbody");
+        $head_name = $("#head_name");
+        $head_address = $("#head_address");
         //$searchResultsDetails = $("#searchResultsDetails").find("tbody");
         $title=$("#title");
         $acre=$("#acre");
@@ -90,7 +92,11 @@
                 .append(address)
                 .appendTo($tr);
 
+            $head_name.html("ID");
+            $head_name.html("Name");
+            $head_address.html("Address");
             $searchResults.append($tr);
+
             console.log($searchResults);
 
         }
