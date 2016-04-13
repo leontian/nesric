@@ -66,7 +66,7 @@ exports.registerItem = function(req, res, next) {
                 return next(err);
         });
     }
-    res.render("registeritem", {message:"Item Registered.", user:req.user});
+    res.render("registerItem", {message:"Item Registered.", user:req.user});
 };
 
 exports.renderModifyItem = function(req, res, next) {
@@ -102,5 +102,5 @@ exports.modifyItem = function(req, res, next) {
         });
     }
 
-    res.render("modifyitem", {message:"Item Modified.", user:req.user});
+    res.render("modifyItem", {message:"Item Modified.", user:req.user});
 };
