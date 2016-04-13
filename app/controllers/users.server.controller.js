@@ -40,7 +40,7 @@ exports.updateProfile = function(req, res, next) {
         var versionQuery = "INSERT INTO users_history\
         (username, name, surname, email, password, `group`) \
         SELECT u.username, u.name, u.surname, u.email, u.password, u.`group`\
-        FROM Users u WHERE u.username=?";
+        FROM users u WHERE u.username=?";
 
         var updateQuery = "UPDATE users SET name=?, surname=?, email=? WHERE username=?;";
 
