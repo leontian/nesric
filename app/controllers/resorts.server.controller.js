@@ -7,6 +7,7 @@ exports.showResort = function(req, res, next) {
     if(req.query.id) {
         connection.query("SELECT * FROM ski_resorts s where s.id = ?", [req.query.id], function (err, rows) {
             if (err) return next(err);
+            console.log(rows);
             res.json(rows);
             return next(err);
         });
@@ -64,6 +65,12 @@ exports.registerItem = function(req, res, next) {
             function(err, rows) {
                 newItem.id = rows.insertId;
                 newItem.version = 1;
+                connection.query( "INSERT INTO register ( registeredBy, registers, date ) values (?,?, CURDATE())", [req.user.username, rows.insertId],
+                    function(err2, rows2) {
+                        return next(err2);
+                    }
+
+                );
                 //console.log(rows);
                 res.render("registerItem", {message:"Item Registered. Version number:" + newItem.version , user:req.user});
                 return next(err);
@@ -100,7 +107,7 @@ exports.modifyItem = function(req, res, next) {
     if(!req.isAuthenticated()) {
         res.redirect('/signin');
     } else {
-        console.log(req.body);
+        //console.log(req.body);
         var updatedItem = req.body;
         var versionQuery = "INSERT INTO ski_resorts_history (name, date, openStatus, acre, trails, address, version)\
         SELECT name, date, openStatus, acre, trails, address, version FROM ski_resorts WHERE id=?;";
@@ -115,6 +122,12 @@ exports.modifyItem = function(req, res, next) {
         connection.query(updateQuery,
             [updatedItem.name, updatedItem.address, updatedItem.acre, updatedItem.openStatus, updatedItem.trails, updatedItem.version, updatedItem.id],
             function(err, rows) {
+                connection.query( "INSERT INTO `update` ( updatedBy, updates, date ) values (?,?, CURDATE())", [req.user.username, updatedItem.id],
+                    function(err2, rows2) {
+                        return next(err2);
+                    }
+
+                );
             return next(err);
         });
     }

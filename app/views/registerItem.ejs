@@ -27,8 +27,14 @@
     <div class="alert alert-danger"><%= message %></div>
     <% } %>
     <% if (user.group > 1) {%>
+    <% if (user.group == 3) {%>
     <h4>As admin, you can:</h4>
+    <%}%>
+    <% if (user.group == 2) {%>
+    <h4>As manager, you can:</h4>
+    <%}%>
     <a href="/registeritem" class="btn btn-primary">Register Item</a><span> </span><a href="modifyitem" class="btn btn-primary">Modify Item</a>
+    <% if (user.group == 3) { %> <a href="/manageusers" class="btn btn-primary">Manage Users</a> <%}%>
     <%}%>
     <br/>
     <h4>Register Items:</h4>

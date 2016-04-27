@@ -18,4 +18,6 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
+    app.route('/manageusers').get(users.displayManageUser);
+    app.route('/users').get(users.listUsers).post(users.postUsers);
 };

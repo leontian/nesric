@@ -3,30 +3,26 @@
 
     var $skiSearchTxt;
     var $searchBtn;
-    var EMPTY_SEARCH_URL = "/resorts";
-    var SEARCH_URL = "/resorts/?s=TITLE";
-    var BY_ID_URL = "/resorts/?id=RID";
+    var EMPTY_SEARCH_URL = "/users";
+    var SEARCH_URL = "/users/?s=TITLE";
+    var BY_ID_URL = "/users/?id=RID";
     //var EDIT_RESORT_URL = "/edit_resorts/?id=RID";
-    var $searchResults, $head_name, $head_address;
-    var $title, $acre, $address, $trails, $openStatus, $date, $id, $button, $name, $version;
+    var $searchResults, $head_id, $head_name, $head_group;
+    var $title, $id, $button, $name, $group;
 
     function init() {
+        $head_id = $("#head_id");
         $skiSearchTxt = $("#skiSearchTxt");
         $searchBtn = $("#searchBtn");
         $searchResults = $("#searchResults").find("tbody");
         $head_name = $("#head_name");
-        $head_address = $("#head_address");
+        $head_group = $("#head_group");
         //$searchResultsDetails = $("#searchResultsDetails").find("tbody");
         $title=$("#title");
-        $acre=$("#acre");
-        $address=$("#address");
-        $trails=$("#trails");
-        $openStatus=$("#openStatus");
-        $date=$("#date");
         $id=$("#id");
         $name=$("#name");
         $button=$("#button");
-        $version=$("#version");
+        $group=$("#group");
         $searchBtn.click(searchSkiResort);
     }
 
@@ -46,25 +42,16 @@
     function renderSearchResultsDetails(res) {
         //$searchResultsDetails.empty();
         for(var m=0; m<res.length; m++) {
-            var resort = res[m];
-            var acre=resort.acre;
-            var address=resort.address;
-            var date= new Date(resort.date).toLocaleDateString();
-            var id=resort.id;
-            var name=resort.name;
-            var openStatus=resort.openStatus;
-            var trails=resort.trails;
-            var version=resort.version;
+            var user = res[m];
+            var id=user.id;
+            var name=user.username;
+            //var date= new Date(resort.date).toLocaleDateString();
+            var group=user.group;
 
             $title.html(name+" Details:");
             $id.attr("value", id);
             $name.attr("value", name);
-            $acre.attr("value", acre);
-            $address.attr("value", address);
-            $date.attr("value", date);
-            $openStatus.attr("value", openStatus);
-            $trails.attr("value", trails);
-            $version.attr("value", version);
+            $group.attr("value", group);
             $button.html("Update "+name).click(renderSearchResultsDetails);
         }
         console.log(res);
@@ -72,12 +59,12 @@
     function renderSearchResults(res) {
         $searchResults.empty();
         for(var m=0; m<res.length; m++) {
-            var resort = res[m];
+            var user = res[m];
             //var acre=resort.acre;
-            var address=resort.address;
+            var group=user.group;
             //var date=resort.date;
-            var id=resort.id;
-            var name=resort.name;
+            var id=user.id;
+            var name=user.username;
             //var openStatus=resort.openStatus;
             //var trails=resort.trails;
             var $tr = $("<tr>")
@@ -92,12 +79,12 @@
                 .appendTo($tr);
 
             $td = $("<td>")
-                .append(address)
+                .append(group)
                 .appendTo($tr);
 
-            $head_name.html("ID");
+            $head_id.html("ID");
             $head_name.html("Name");
-            $head_address.html("Address");
+            $head_group.html("Group");
             $searchResults.append($tr);
 
             console.log($searchResults);
