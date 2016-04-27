@@ -28,6 +28,9 @@ CREATE TABLE `' + dbconfig.database + '`.`' + 'ski_resorts' + '` ( \
   `acre` int(11) DEFAULT NULL,\
   `trails` int(11) DEFAULT NULL,\
   `address` varchar(200) DEFAULT NULL,\
+  `description` varchar(5000) DEFAULT NULL,\
+  `lift` int(11) DEFAULT NULL,\
+  `elevation` int(11) DEFAULT NULL,\
   `dateCreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\
   `version` int(11) DEFAULT NULL,\
   PRIMARY KEY (`id`)\
@@ -42,6 +45,9 @@ CREATE TABLE `' + dbconfig.database + '`.`' + 'ski_resorts_history' + '` ( \
   `acre` int(11) DEFAULT NULL,\
   `trails` int(11) DEFAULT NULL,\
   `address` varchar(200) DEFAULT NULL,\
+    `description` varchar(5000) DEFAULT NULL,\
+  `lift` int(11) DEFAULT NULL,\
+  `elevation` int(11) DEFAULT NULL,\
   `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\
   `version` int(11) DEFAULT NULL,\
   PRIMARY KEY (`id`)\
@@ -59,6 +65,7 @@ CREATE TABLE `' + dbconfig.database + '`.`' + 'users_history' + '` ( \
   `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\
   PRIMARY KEY (`id`)\
 )');
+
 
 console.log('Success: Database Created!')
 

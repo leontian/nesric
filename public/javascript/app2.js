@@ -9,6 +9,7 @@
     //var EDIT_RESORT_URL = "/edit_resorts/?id=RID";
     var $searchResults, $head_name, $head_address;
     var $title, $acre, $address, $trails, $openStatus, $date, $id, $button, $name, $version;
+    var $elevation, $lifts, $description;
 
     function init() {
         $skiSearchTxt = $("#skiSearchTxt");
@@ -24,7 +25,11 @@
         $openStatus=$("#openStatus");
         $date=$("#date");
         $id=$("#id");
+        $elevation=$("#elevation");
+        $description=$("#description");
+        $lifts=$("#lifts");
         $name=$("#name");
+
         $button=$("#button");
         $version=$("#version");
         $searchBtn.click(searchSkiResort);
@@ -55,6 +60,9 @@
             var openStatus=resort.openStatus;
             var trails=resort.trails;
             var version=resort.version;
+            var lifts=resort.lift;
+            var description=resort.description;
+            var elevation = resort.elevation;
 
             $title.html(name+" Details:");
             $id.attr("value", id);
@@ -65,6 +73,9 @@
             $openStatus.attr("value", openStatus);
             $trails.attr("value", trails);
             $version.attr("value", version);
+            $lifts.attr("value", lifts);
+            $description.attr("value", description);
+            $elevation.attr("value", elevation);
             $button.html("Update "+name).click(renderSearchResultsDetails);
         }
         console.log(res);

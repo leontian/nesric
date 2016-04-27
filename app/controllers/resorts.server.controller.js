@@ -52,16 +52,19 @@ exports.registerItem = function(req, res, next) {
             name: req.body.name,
             address: req.body.address,
             acre: req.body.acre,
-            date: req.body.date,
             openStatus: req.body.openStatus,
-            trails: req.body.trails
+            trails: req.body.trails,
+            description: req.body.description,
+            lifts: req.body.lifts,
+            elevation: req.body.elevation
         };
+        console.log(newItem);
 
         var insertQuery =
-            "INSERT INTO ski_resorts ( name, address, acre, date, openStatus, trails, version) values (?,?,?,CURDATE(),?,?, 1)";
+            "INSERT INTO ski_resorts ( name, address, acre, date, openStatus, trails, description, lift, elevation, version) values (?,?,?,CURDATE(),?,?,?,?,?, 1)";
 
         connection.query(insertQuery,
-            [newItem.name, newItem.address, newItem.acre, newItem.openStatus, newItem.trails],
+            [newItem.name, newItem.address, newItem.acre, newItem.openStatus, newItem.trails, newItem.description, newItem.lifts, newItem.elevation],
             function(err, rows) {
                 newItem.id = rows.insertId;
                 newItem.version = 1;
@@ -109,9 +112,9 @@ exports.modifyItem = function(req, res, next) {
     } else {
         //console.log(req.body);
         var updatedItem = req.body;
-        var versionQuery = "INSERT INTO ski_resorts_history (name, date, openStatus, acre, trails, address, version)\
-        SELECT name, date, openStatus, acre, trails, address, version FROM ski_resorts WHERE id=?;";
-        var updateQuery = "UPDATE ski_resorts SET name=?, address=?, acre=?, date=CURDATE(), openStatus=?, trails=?, version = ? WHERE id=?;";
+        var versionQuery = "INSERT INTO ski_resorts_history (name, date, openStatus, acre, trails, address, description, lift, elevation, version)\
+        SELECT name, date, openStatus, acre, trails, address, description, lift, elevation, version FROM ski_resorts WHERE id=?;";
+        var updateQuery = "UPDATE ski_resorts SET name=?, address=?, acre=?, date=CURDATE(), openStatus=?, trails=?, version = ?, description=?, lift=?,elevation=? WHERE id=?;";
         updatedItem.version = parseInt(updatedItem.version) + 1;
 
         connection.query(versionQuery,
@@ -120,7 +123,7 @@ exports.modifyItem = function(req, res, next) {
                 return next(err);
             });
         connection.query(updateQuery,
-            [updatedItem.name, updatedItem.address, updatedItem.acre, updatedItem.openStatus, updatedItem.trails, updatedItem.version, updatedItem.id],
+            [updatedItem.name, updatedItem.address, updatedItem.acre, updatedItem.openStatus, updatedItem.trails, updatedItem.version, updatedItem.description, updatedItem.lifts, updatedItem.elevation, updatedItem.id],
             function(err, rows) {
                 connection.query( "INSERT INTO `update` ( updatedBy, updates, date ) values (?,?, CURDATE())", [req.user.username, updatedItem.id],
                     function(err2, rows2) {

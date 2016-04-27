@@ -9,6 +9,8 @@
     //var EDIT_RESORT_URL = "/edit_resorts/?id=RID";
     var $searchResults, $head_name, $head_address;
     var $title, $acre, $address, $trails, $openStatus, $date;
+    var $elevation, $lifts, $description;
+
 
     function init() {
         $skiSearchTxt = $("#skiSearchTxt");
@@ -24,6 +26,9 @@
         $searchBtn.click(searchSkiResort);
         $head_name = $("#head_name");
         $head_address = $("#head_address");
+        $elevation=$("#elevation");
+        $description=$("#description");
+        $lifts=$("#lifts");
     }
 
     function searchSkiResort(){
@@ -45,11 +50,14 @@
             var resort = res[m];
             var acre=resort.acre;
             var address=resort.address;
-            var date=resort.date;
+            var date=new Date(resort.date).toLocaleDateString();
             var id=resort.id;
             var name=resort.name;
             var openStatus=resort.openStatus;
             var trails=resort.trails;
+            var lifts=resort.lift;
+            var description=resort.description;
+            var elevation = resort.elevation;
 
             $title.html(name+" Details:");
             $acre.html("Acre: "+acre);
@@ -57,6 +65,10 @@
             $date.html("Date: "+date);
             $openStatus.html("Open Status: "+openStatus);
             $trails.html("Trails: "+trails);
+            $lifts.html("Lifts: "+lifts);
+            $elevation.html("Elevation: "+elevation);
+            $description.html("Description: "+description);
+
         }
         console.log(res);
     }
