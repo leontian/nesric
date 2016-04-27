@@ -28,6 +28,8 @@ CREATE TABLE `' + dbconfig.database + '`.`' + 'ski_resorts' + '` ( \
   `acre` int(11) DEFAULT NULL,\
   `trails` int(11) DEFAULT NULL,\
   `address` varchar(200) DEFAULT NULL,\
+  `dateCreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\
+  `version` int(11) DEFAULT NULL,\
   PRIMARY KEY (`id`)\
 )');
 
@@ -41,6 +43,7 @@ CREATE TABLE `' + dbconfig.database + '`.`' + 'ski_resorts_history' + '` ( \
   `trails` int(11) DEFAULT NULL,\
   `address` varchar(200) DEFAULT NULL,\
   `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\
+  `version` int(11) DEFAULT NULL,\
   PRIMARY KEY (`id`)\
 )');
 

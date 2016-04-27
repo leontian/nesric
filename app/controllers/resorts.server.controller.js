@@ -19,13 +19,13 @@ exports.showResort = function(req, res, next) {
             }
         }
         console.log(r);
-        connection.query("SELECT * FROM ski_resorts s where s.name rlike ? or s.address rlike ?", [r, r], function (err, rows) {
+        connection.query("SELECT * FROM ski_resorts s WHERE s.name RLIKE ? or s.address RLIKE ? ORDER BY s.name", [r, r], function (err, rows) {
             if (err)return next(err);
             res.json(rows);
             return next(err);
         });
     } else {
-        connection.query("SELECT * FROM ski_resorts s", function (err, rows) {
+        connection.query("SELECT * FROM ski_resorts s ORDER BY s.name", function (err, rows) {
             if (err)return next(err);
             res.json(rows);
             return next(err);
@@ -57,16 +57,33 @@ exports.registerItem = function(req, res, next) {
         };
 
         var insertQuery =
-            "INSERT INTO ski_resorts ( name, address, acre, date, openStatus, trails ) values (?,?,?,?,?,?)";
+            "INSERT INTO ski_resorts ( name, address, acre, date, openStatus, trails, version) values (?,?,?,CURDATE(),?,?, 1)";
 
         connection.query(insertQuery,
-            [newItem.name, newItem.address, newItem.acre, newItem.date, newItem.openStatus, newItem.trails],
+            [newItem.name, newItem.address, newItem.acre, newItem.openStatus, newItem.trails],
             function(err, rows) {
                 newItem.id = rows.insertId;
+                newItem.version = 1;
+                //console.log(rows);
+                res.render("registerItem", {message:"Item Registered. Version number:" + newItem.version , user:req.user});
                 return next(err);
         });
+
+        // var getVersionQuery = "SELECT s.version FROM ski_resorts s where s.id = ?";//TODO: why we cannot do this outside of this callback?
+        // connection.query(getVersionQuery, [newItem.id],
+        //     function(err, rows) {
+        //         newItem.version = rows[0].version;
+        //         //console.log(newItem.id);
+        //         console.log(rows[0].version);
+        //         res.render("registerItem", {message:"Item Registered. Version number:" + newItem.version , user:req.user});
+        //         return next(err);
+        //     });
+
+
     }
-    res.render("registerItem", {message:"Item Registered.", user:req.user});
+
+    //console.log(newItem.version);
+
 };
 
 exports.renderModifyItem = function(req, res, next) {
@@ -85,10 +102,10 @@ exports.modifyItem = function(req, res, next) {
     } else {
         console.log(req.body);
         var updatedItem = req.body;
-        var versionQuery = "INSERT INTO ski_resorts_history (name, date, openStatus, acre, trails, address)\
-        SELECT name, date, openStatus, acre, trails, address FROM ski_resorts WHERE id=?;";
-        var updateQuery = "UPDATE ski_resorts SET name=?, address=?, acre=?, date=?, openStatus=?, trails=? WHERE id=?;";
-
+        var versionQuery = "INSERT INTO ski_resorts_history (name, date, openStatus, acre, trails, address, version)\
+        SELECT name, date, openStatus, acre, trails, address, version FROM ski_resorts WHERE id=?;";
+        var updateQuery = "UPDATE ski_resorts SET name=?, address=?, acre=?, date=CURDATE(), openStatus=?, trails=?, version = ? WHERE id=?;";
+        updatedItem.version = parseInt(updatedItem.version) + 1;
 
         connection.query(versionQuery,
             [updatedItem.id],
@@ -96,11 +113,11 @@ exports.modifyItem = function(req, res, next) {
                 return next(err);
             });
         connection.query(updateQuery,
-            [updatedItem.name, updatedItem.address, updatedItem.acre, updatedItem.date, updatedItem.openStatus, updatedItem.trails, updatedItem.id],
+            [updatedItem.name, updatedItem.address, updatedItem.acre, updatedItem.openStatus, updatedItem.trails, updatedItem.version, updatedItem.id],
             function(err, rows) {
             return next(err);
         });
     }
 
-    res.render("modifyItem", {message:"Item Modified.", user:req.user});
+    res.render("modifyItem", {message:"Item Modified. Version number: "+ updatedItem.version, user:req.user});
 };
