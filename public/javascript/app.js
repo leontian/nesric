@@ -53,7 +53,12 @@
             var date=new Date(resort.date).toLocaleDateString();
             var id=resort.id;
             var name=resort.name;
+
             var openStatus=resort.openStatus;
+            if(resort.openStatus) {
+                openStatus = "Yes";
+            }
+            else openStatus = "No";
             var trails=resort.trails;
             var lifts=resort.lift;
             var description=resort.description;
@@ -62,7 +67,7 @@
             $title.html(name+" Details:");
             $acre.html("Acre: "+acre);
             $address.html("Address: "+address);
-            $date.html("Date: "+date);
+            $date.html("Last Updated: "+date);
             $openStatus.html("Open Status: "+openStatus);
             $trails.html("Trails: "+trails);
             $lifts.html("Lifts: "+lifts);
